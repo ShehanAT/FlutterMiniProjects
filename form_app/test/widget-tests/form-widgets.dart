@@ -14,20 +14,7 @@ void main() {
       home: FormWidgetsDemo(),
     ));
 
-    // Enter email / password
-    // var emailField = textFormField.at(0);
-    // var passwordField = textFormField.at(1);
-    // await tester.enterText(emailField, email);
-    // await tester.enterText(passwordField, password);
-
-    // Sign in
-    // var button = find.byType(TextButton);
-    // expect(button, findsOneWidget);
-    // await tester.tap(button);
-
-    // Wait for dialog
     await tester.pumpAndSettle();
-    // expect(find.byType(AlertDialog), findsOneWidget);
   }
 
   testWidgets(
@@ -44,5 +31,47 @@ void main() {
 
     expect(find.text("Know Thyself"), findsOneWidget);
     expect(find.text("Know Thyselves"), findsNothing);
+  });
+
+  testWidgets(
+      'Given the user navigates to the Form Widgets screen'
+      'When the user selects a date from the DatePicker'
+      'Then the DatePicker\'s value should be the picked date',
+      (WidgetTester tester) async {
+    await _enterFormWidgetsScreen(tester);
+
+    var datePickerFieldEditButton =
+        find.byKey(ValueKey("form_date_picker_edit"));
+    await tester.tap(datePickerFieldEditButton);
+
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text("15"));
+    await tester.tap(find.text("OK"));
+
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining("/15/"), findsOneWidget);
+    expect(find.textContaining("/14/"), findsNothing);
+    expect(find.textContaining("/16/"), findsNothing);
+  });
+
+  testWidgets(
+      'Given the user navigates to the Form Widgets screen'
+      'When the user slides the Estimated Value Slider to a certain value'
+      'Then the Estimated Value Slider\'s value should be the specified value',
+      (WidgetTester tester) async {
+    await _enterFormWidgetsScreen(tester);
+
+    var estimatedValueSlider = find.byKey(ValueKey("estimated_value_slider"));
+    await tester.drag(estimatedValueSlider, Offset(100, 0));
+
+    await tester.pumpAndSettle();
+
+    // FIND WAY TO GET EXACT VALUE OF ESTIMATEDVALUESLIDER in order to make comparison
+
+    // expect(find.textContaining("/15/"), findsOneWidget);
+    // expect(find.textContaining("/14/"), findsNothing);
+    // expect(find.textContaining("/16/"), findsNothing);
   });
 }

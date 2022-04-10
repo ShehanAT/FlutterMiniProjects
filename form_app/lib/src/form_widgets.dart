@@ -95,6 +95,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                               style: Theme.of(context).textTheme.subtitle1,
                             ),
                             Slider(
+                              key: Key("estimated_value_slider"),
                               min: 0,
                               max: 500,
                               divisions: 500,
@@ -176,6 +177,7 @@ class _FormDatePickerState extends State<_FormDatePicker> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      key: Key('form_date_picker'),
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -195,6 +197,7 @@ class _FormDatePickerState extends State<_FormDatePicker> {
         ),
         TextButton(
           child: const Text('Edit'),
+          key: Key("form_date_picker_edit"),
           onPressed: () async {
             var newDate = await showDatePicker(
               context: context,
