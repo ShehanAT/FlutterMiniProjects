@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:form_app/src/http/mock_client.dart';
 import 'package:form_app/src/sign_in_http.dart';
 import 'package:form_app/src/form_widgets.dart';
+import '../extensions/slide-to.dart';
 
 void main() {
   Future<void> _enterFormWidgetsScreen(WidgetTester tester) async {
@@ -64,14 +65,15 @@ void main() {
     await _enterFormWidgetsScreen(tester);
 
     var estimatedValueSlider = find.byKey(ValueKey("estimated_value_slider"));
-    await tester.drag(estimatedValueSlider, Offset(100, 0));
+
+    await SlideTo(tester).slideToValue(estimatedValueSlider, 20);
 
     await tester.pumpAndSettle();
 
-    // FIND WAY TO GET EXACT VALUE OF ESTIMATEDVALUESLIDER in order to make comparison
+    Slider slider = tester.firstWidget(estimatedValueSlider);
 
-    // expect(find.textContaining("/15/"), findsOneWidget);
-    // expect(find.textContaining("/14/"), findsNothing);
-    // expect(find.textContaining("/16/"), findsNothing);
+    expect(slider.value, 100);
+    expect(slider.value < 100, false);
+    expect(slider.value > 100, false);
   });
 }
