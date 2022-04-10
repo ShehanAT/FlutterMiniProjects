@@ -77,6 +77,7 @@ class _SignInHttpDemoState extends State<SignInHttpDemo> {
                     },
                   ),
                   TextButton(
+                    key: Key("submit_button"),
                     child: const Text('Sign in'),
                     onPressed: () async {
                       // Use a JSON encoded string to send

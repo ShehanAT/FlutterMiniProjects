@@ -27,6 +27,7 @@ class _FormValidationDemoState extends State<FormValidationDemo> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: TextButton(
+              key: Key("submit_button"),
               style: TextButton.styleFrom(primary: Colors.white),
               child: const Text('Submit'),
               onPressed: () {

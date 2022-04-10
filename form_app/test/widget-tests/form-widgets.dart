@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:form_app/src/http/mock_client.dart';
 import 'package:form_app/src/sign_in_http.dart';
+import 'package:form_app/src/validation.dart';
 import 'package:form_app/src/form_widgets.dart';
 import '../extensions/slide-to.dart';
 
@@ -13,6 +14,22 @@ void main() {
   Future<void> _enterFormWidgetsScreen(WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
       home: FormWidgetsDemo(),
+    ));
+
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> _enterValidationScreen(WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: FormValidationDemo(),
+    ));
+
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> _enterSignInScreen(WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: SignInHttpDemo(),
     ));
 
     await tester.pumpAndSettle();
@@ -75,5 +92,24 @@ void main() {
     expect(slider.value, 100);
     expect(slider.value < 100, false);
     expect(slider.value > 100, false);
+  });
+
+  testWidgets(
+      'Given the user navigates to the Validation screen'
+      'When the user submits the form without any values'
+      'Then error messages should be shown under the text fields',
+      (WidgetTester tester) async {
+    await _enterValidationScreen(tester);
+
+    var submitButton = find.byKey(ValueKey("submit_button"));
+
+    await tester.tap(submitButton);
+
+    await tester.pumpAndSettle();
+
+    expect(find.text("Please enter an adjective."), findsOneWidget);
+    expect(find.text("Please enter a noun."), findsOneWidget);
+    expect(
+        find.text("You must agree to the terms of service."), findsOneWidget);
   });
 }
